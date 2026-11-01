@@ -9,7 +9,7 @@ Use in this order:
 1. **architect** (design): pick structure and tradeoffs before coding. Read-only.
 2. **backend-go** (code): implement handlers, services, data access. Runs to completion in one go. For step-by-step pair coding, ask the main Claude session directly and use architect, tester and reviewer around it.
 3. **tester** (tests): table-driven tests with `httptest`, run `go test -cover ./...`.
-4. **reviewer** (final check): review the diff before calling it done. Read-only.
+4. **reviewer** (final check): review the changes. It can run git diff, go vet, and go test, but cannot edit files.
 
 ## Reserve (`reserve/`)
 
@@ -57,3 +57,11 @@ Copy-Item reserve\security.md C:\path\to\project\.claude\agents\
 2. Read the task and decide on reserve agents.
 3. Copy `.claude`, `CLAUDE.md`, and any reserve agent into the project.
 4. Start Claude Code, then use architect, code in the main session, tester, reviewer.
+
+## Time plan
+
+- 0-5: read the task, ask clarifying questions, state assumptions.
+- 5-15: design.
+- 15-65: code and tests.
+- 65-80: reviewer, fix critical issues.
+- 80-90: build, vet, test, then summarize tradeoffs and next steps.

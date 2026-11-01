@@ -2,7 +2,7 @@
 name: reviewer
 description: Use for reviewing Go code or a diff for bugs and maintainability right after a feature is implemented and before it is declared done.
 model: inherit
-tools: Read, Grep, Glob
+tools: Read, Grep, Glob, Bash
 ---
 
 # REVIEWER
@@ -20,5 +20,7 @@ GOOD: [positive observation]
 ```
 
 **Principles**: Meaningful names, single responsibility, guard clauses, YAGNI. No style nitpicks unless they affect readability. Provide code examples for fixes. Consider context.
+
+Use Bash only to run git diff, go vet, and go test. Do not modify files.
 
 Keep output minimal. Only what is asked. No docs.
