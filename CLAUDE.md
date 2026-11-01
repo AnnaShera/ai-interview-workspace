@@ -58,6 +58,10 @@ for _, tc := range []struct{ name string; input int; want int }{
 }
 ```
 
+**Design**: small interfaces. No init().
+
+**Concurrency**: start a goroutine only with a clear owner and exit path (context cancellation, WaitGroup or errgroup). No goroutine leaks.
+
 **Concurrency checks**: If the code uses goroutines, run tests with `-race` when a C compiler is available. Detect goroutine leaks with `goleak` only if adding a dependency is allowed.
 
 
@@ -66,6 +70,7 @@ for _, tc := range []struct{ name string; input int; want int }{
 - Validate all input at the handler boundary: types, ranges, lengths. Reject bad input before it reaches services or the DB.
 - Never hardcode or log secrets; read them from environment/config.
 - Check authorization on every protected route, not just authentication.
+- Use crypto/rand for tokens and secrets, never math/rand.
 
 
 ## API Contract Standards
