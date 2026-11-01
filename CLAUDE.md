@@ -7,6 +7,10 @@ Go REST API backend. 90-minute live interview. Minimal output. Explain reasoning
 
 **Pacing**: design max 15 minutes, working code first, then tests, then polish.
 
+**Pair mode**: one step at a time. Before writing code, say in one line what you will write and why. After, explain each non-obvious line in one line. Stop and wait for my go-ahead before the next step.
+
+**Defaults**: standard library only (`net/http` with Go 1.22 `ServeMux` method patterns, `encoding/json`, `log/slog`). In-memory store behind an interface unless a DB is specified. Add a dependency only if the task requires it.
+
 **Commands**: `go build ./... && go vet ./... && go test -race ./...`. Run `gofmt` on changed files. Go 1.22+.
 
 
