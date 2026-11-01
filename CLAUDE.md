@@ -11,7 +11,7 @@ Go REST API backend. 90-minute live interview. Minimal output. Explain reasoning
 
 **Defaults**: standard library only (`net/http` with Go 1.22 `ServeMux` method patterns, `encoding/json`, `log/slog`). In-memory store behind an interface unless a DB is specified. Add a dependency only if the task requires it.
 
-**Commands**: `go build ./... && go vet ./... && go test -race ./...`. Run `gofmt` on changed files. Go 1.22+.
+**Commands**: `go build ./... && go vet ./... && go test ./...`. Run `gofmt` on changed files. Go 1.22+. Add `-race` only if the code uses goroutines and a C compiler is available (on Windows, `-race` needs cgo and gcc).
 
 
 ## Go Backend Standards
@@ -58,7 +58,7 @@ for _, tc := range []struct{ name string; input int; want int }{
 }
 ```
 
-**Concurrency checks**: run tests with `-race`. Detect goroutine leaks with `goleak`.
+**Concurrency checks**: If the code uses goroutines, run tests with `-race` when a C compiler is available. Detect goroutine leaks with `goleak`.
 
 
 ## Security
