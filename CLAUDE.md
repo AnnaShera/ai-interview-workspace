@@ -1,23 +1,32 @@
 # Claude Instructions
 
 ## Interview mode
-Interview mode. 90 minutes. Minimal output. Ask before big changes. Explain reasoning briefly.
+Go REST API backend. 90-minute live interview. Minimal output. Explain reasoning briefly.
+
+**Big change** = touches more than 2 files, changes an API contract, or changes a DB schema. Ask before making one.
+
+**Pacing**: design max 15 minutes, working code first, then tests, then polish.
+
+**Commands**: `go build ./... && go vet ./... && go test -race ./...`. Run `gofmt` on changed files. Go 1.22+.
 
 
-# Go Backend Standards
+## Go Backend Standards
 
 **Error handling** (never ignore; specific types):
 ```go
-// ❌ BAD — ignored error, generic message, lost cause
+// BAD — ignored error
 result, _ := doThing()
+
+// BAD — generic message, lost cause
+result, err := doThing()
 if err != nil {
     return fmt.Errorf("failed")
 }
 
-// ✅ GOOD — wrapped cause, sentinel for callers
+// GOOD — wrapped cause, sentinel for callers
 var ErrUserNotFound = errors.New("user not found")
 
-row, err := db.QueryRowContext(ctx, q, id).Scan(&user)
+err := db.QueryRowContext(ctx, q, id).Scan(&user)
 if errors.Is(err, sql.ErrNoRows) {
     return ErrUserNotFound
 }
@@ -28,7 +37,7 @@ if err != nil {
 - Wrap with `%w` when callers need `errors.Is` / `errors.As`. Prefer sentinel or typed errors over string matching.
 - No panics in production paths. Map domain errors to HTTP at handlers — do not expose internals.
 
-**Parameterized queries**: `db.Query("SELECT ... WHERE id = ?", id)`. Never `fmt.Sprintf` for SQL. Use `sqlx.Named` for named params.
+**Parameterized queries**: `db.Query("SELECT ... WHERE id = ?", id)`. Placeholder depends on the driver (`$1` for Postgres). Never `fmt.Sprintf` for SQL.
 
 **Context**: Pass `context.Context` as first arg. Use for cancellation, timeouts. `context.WithTimeout`, `context.WithCancel`.
 
@@ -40,17 +49,26 @@ for _, tc := range []struct{ name string; input int; want int }{
 } {
     t.Run(tc.name, func(t *testing.T) {
         got := fn(tc.input)
-        if got != tc.want { t.Errorf("got %d", got) }
+        if got != tc.want { t.Errorf("fn(%d) = %d, want %d", tc.input, got, tc.want) }
     })
 }
 ```
 
-**Profiling**: `go test -bench=. -cpuprofile=cpu.prof`. `pprof -http=:8080 cpu.prof`. Check goroutine leaks with `-trace`.
+**Concurrency checks**: run tests with `-race`. Detect goroutine leaks with `goleak`.
 
 
-# API Contract Standards
+## Security
 
-**Validation status**: Validation error status must follow the project API contract. If unspecified, use framework default and document it explicitly.
+- Validate all input at the handler boundary: types, ranges, lengths. Reject bad input before it reaches services or the DB.
+- Never hardcode or log secrets; read them from environment/config.
+- Check authorization on every protected route, not just authentication.
+
+
+## API Contract Standards
+
+Apply these only when an API contract changes.
+
+**Validation status**: Validation errors return 400. Not found returns 404.
 
 **Error payloads**: Keep error shape consistent across endpoints (code/message/details or project equivalent). Never expose stack traces or internal exception data.
 
@@ -61,16 +79,14 @@ for _, tc := range []struct{ name string; input int; want int }{
 **Documentation sync**: Update OpenAPI/spec and docs when route shape, status codes, or validation behavior changes.
 
 
-# Token Efficiency
-
-**Inputs**: Ask one focused question per turn when possible. Use `@file` / `@folder` / symbols instead of pasting large code. Point to paths and line ranges instead of quoting whole files.
+## Token Efficiency
 
 **Tool use**: Batch related reads/searches. Do not re-read files already in context unless they changed. Prefer grep for "where is X" over opening many files.
 
 **Replies**: No filler, no repeating the user prompt. Lead with the answer or plan. Lists over long prose when enumerating steps or options.
 
-**Code in chat**: Do not paste unchanged files. For existing code, use editor line-range citations. For new code, only the diff or the minimal complete block.
+**Code in chat**: Do not paste unchanged files. For new code, only the diff or the minimal complete block.
 
-**Scope**: Match depth to request — a one-line fix does not need architecture essays. Defer edge cases unless asked.
+**Scope**: Match depth to request — a one-line fix does not need architecture essays. Defer only unrelated edge cases.
 
 **Session hygiene**: Close obsolete topics explicitly if switching tasks to avoid carrying stale assumptions.
