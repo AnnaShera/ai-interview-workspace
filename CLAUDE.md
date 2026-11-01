@@ -58,7 +58,7 @@ for _, tc := range []struct{ name string; input int; want int }{
 }
 ```
 
-**Concurrency checks**: If the code uses goroutines, run tests with `-race` when a C compiler is available. Detect goroutine leaks with `goleak`.
+**Concurrency checks**: If the code uses goroutines, run tests with `-race` when a C compiler is available. Detect goroutine leaks with `goleak` only if adding a dependency is allowed.
 
 
 ## Security

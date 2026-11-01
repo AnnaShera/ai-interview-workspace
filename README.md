@@ -50,3 +50,10 @@ PowerShell:
 ```
 Copy-Item reserve\security.md C:\path\to\project\.claude\agents\
 ```
+
+## Interview day checklist
+
+1. Check `go version` is 1.22 or newer.
+2. Read the task and decide on reserve agents.
+3. Copy `.claude`, `CLAUDE.md`, and any reserve agent into the project.
+4. Start Claude Code, then use architect, code in the main session, tester, reviewer.
