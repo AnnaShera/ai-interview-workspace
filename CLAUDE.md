@@ -65,7 +65,7 @@ for _, tc := range []struct{ name string; input int; want int }{
 
 **Inputs**: Ask one focused question per turn when possible. Use `@file` / `@folder` / symbols instead of pasting large code. Point to paths and line ranges instead of quoting whole files.
 
-**Tool use**: Batch related reads/searches. Do not re-read files already in context unless they changed. Prefer grep/codebase_search for "where is X" over opening many files. For MCP vs shell, follow `mcp-integrations.mdc` CLI routing.
+**Tool use**: Batch related reads/searches. Do not re-read files already in context unless they changed. Prefer grep for "where is X" over opening many files.
 
 **Replies**: No filler, no repeating the user prompt. Lead with the answer or plan. Lists over long prose when enumerating steps or options.
 
