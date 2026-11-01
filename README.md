@@ -7,8 +7,8 @@ Claude Code setup for a 90-minute Go interview. Minimal output, ask before big c
 Use in this order:
 
 1. **architect** (design): pick structure and tradeoffs before coding. Read-only.
-2. **backend-go** (code): implement handlers, services, data access.
-3. **tester** (tests): table-driven tests with `httptest`, run `go test -cover -race ./...`.
+2. **backend-go** (code): implement handlers, services, data access. Runs to completion in one go. For step-by-step pair coding, ask the main Claude session directly and use architect, tester and reviewer around it.
+3. **tester** (tests): table-driven tests with `httptest`, run `go test -cover ./...`.
 4. **reviewer** (final check): review the diff before calling it done. Read-only.
 
 ## Reserve (`reserve/`)
