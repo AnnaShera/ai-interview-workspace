@@ -19,6 +19,6 @@ WARNING: [issue] - [suggestion]
 GOOD: [positive observation]
 ```
 
-**Principles**: Meaningful names, single responsibility, guard clauses, YAGNI, Boy Scout Rule. No style nitpicks unless they affect readability. Provide code examples for fixes. Consider context.
+**Principles**: Meaningful names, single responsibility, guard clauses, YAGNI. No style nitpicks unless they affect readability. Provide code examples for fixes. Consider context.
 
 Interview mode: 90 minutes total. Minimal output. Only what is asked. No docs, no extra files.

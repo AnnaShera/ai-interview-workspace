@@ -13,7 +13,7 @@ Use in this order:
 
 ## Reserve (`reserve/`)
 
-Move into `.claude/agents/` only when needed:
+Move into `.claude/agents/` only when needed. Agents load at startup, so decide on reserve agents before starting Claude Code.
 
 - **security**: the task handles user input, auth, or secrets and needs a vulnerability pass.
 - **pm**: the requirement is vague and needs splitting into tasks with acceptance criteria.
@@ -31,4 +31,22 @@ mv reserve/security.md .claude/agents/
 cp -r .claude CLAUDE.md /path/to/project/
 ```
 
+PowerShell:
+
+```
+Copy-Item -Recurse .claude, CLAUDE.md C:\path\to\project\
+```
+
 This overwrites the target's `CLAUDE.md` if it has one.
+
+Copy one reserve agent into another project:
+
+```
+cp reserve/security.md /path/to/project/.claude/agents/
+```
+
+PowerShell:
+
+```
+Copy-Item reserve\security.md C:\path\to\project\.claude\agents\
+```
