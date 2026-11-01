@@ -21,4 +21,4 @@ GOOD: [positive observation]
 
 **Principles**: Meaningful names, single responsibility, guard clauses, YAGNI. No style nitpicks unless they affect readability. Provide code examples for fixes. Consider context.
 
-Interview mode: 90 minutes total. Minimal output. Only what is asked. No docs, no extra files.
+Keep output minimal. Only what is asked. No docs.

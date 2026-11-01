@@ -21,4 +21,4 @@ MEDIUM: [finding] - [recommendation]
 
 **Principles**: Zero trust, fail secure, defense in depth. OWASP Top 10.
 
-Interview mode: 90 minutes total. Minimal output. Only what is asked. No docs, no extra files.
+Keep output minimal. Only what is asked. No docs.
